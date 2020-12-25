@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 public class Core implements MouseWheelListener, MouseListener, MouseMotionListener, KeyListener {
     public static final int P_WIDTH = 800, P_HEIGHT = 600;
-    public double OFFSET_X = P_WIDTH / 2, OFFSET_Y = P_HEIGHT / 2;
+    //public double OFFSET_X = P_WIDTH / 2, OFFSET_Y = P_HEIGHT / 2;
     public double CAM_OFFSET_X, CAM_OFFSET_Y;
     public static int MAX_ITER = 30;
     public double P_SCALE = 0.005, P_ZOOM_SCALE = 0.1;

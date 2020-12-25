@@ -59,16 +59,16 @@ public class Frame extends JFrame {
         accumFrames++;
         g.setColor(Color.YELLOW);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString(""+fps, Core.P_WIDTH-g.getFontMetrics().stringWidth("0000"), g.getFontMetrics().getHeight()+5);
+        g.drawString(""+fps, panel.getWidth()-g.getFontMetrics().stringWidth("0000"), g.getFontMetrics().getHeight()+5);
     }
 
     private void updateMandelbrot(Graphics g){
         double scale = coreInstance.P_SCALE;
-        double offsetX = coreInstance.OFFSET_X + coreInstance.CAM_OFFSET_X;
-        double offsetY = coreInstance.OFFSET_Y + coreInstance.CAM_OFFSET_Y;
+        double offsetX = (double)panel.getWidth()/2 + coreInstance.CAM_OFFSET_X;
+        double offsetY = (double)panel.getHeight()/2 + coreInstance.CAM_OFFSET_Y;
         int pixelStep = (int) Math.round(1/Core.RES_SCALE);
-        for (int i = 0; i < Core.P_HEIGHT; i+=pixelStep) {
-            for (int j = 0; j < Core.P_WIDTH; j+=pixelStep) {
+        for (int i = 0; i < panel.getHeight(); i+=pixelStep) {
+            for (int j = 0; j < panel.getWidth(); j+=pixelStep) {
                 int iter = computeIterations(new Complex((j-offsetX)*scale, (i-offsetY)*scale));
                 /*
                 int r = (iter/Core.MAX_ITER)*255;
