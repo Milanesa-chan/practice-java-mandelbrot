@@ -70,10 +70,14 @@ public class Frame extends JFrame {
         for (int i = 0; i < Core.P_HEIGHT; i+=pixelStep) {
             for (int j = 0; j < Core.P_WIDTH; j+=pixelStep) {
                 int iter = computeIterations(new Complex((j-offsetX)*scale, (i-offsetY)*scale));
+                /*
                 int r = (iter/Core.MAX_ITER)*255;
                 int gr = (iter/Core.MAX_ITER)*255;
                 int b = (iter/Core.MAX_ITER)*255;
                 Color col = new Color(((r&0xFF)<<16) + ((gr&0xFF)<<8) + ((b&0xFF)));
+                 */
+
+                Color col = new Color((int) (0xFFFFFF*Math.pow((double)iter/Core.MAX_ITER, 4)));
                 g.setColor(col);
                 g.fillRect(j, i, pixelStep, pixelStep);
             }
@@ -86,7 +90,7 @@ public class Frame extends JFrame {
         while(iter < Core.MAX_ITER){
             z = Complex.square(z).add(c);
             iter++;
-            if(Math.pow(z.real, 2) + Math.pow(z.imag, 2) >= 4) break;
+            if(Math.pow(z.real, 2) + Math.pow(z.imag, 2) >= 256) break;
         }
         return iter;
     }

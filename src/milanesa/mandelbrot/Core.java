@@ -9,9 +9,9 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
     public static final int P_WIDTH = 800, P_HEIGHT = 600;
     public double OFFSET_X = P_WIDTH / 2, OFFSET_Y = P_HEIGHT / 2;
     public double CAM_OFFSET_X, CAM_OFFSET_Y;
-    public static int MAX_ITER = 32;
+    public static int MAX_ITER = 30;
     public double P_SCALE = 0.005, P_ZOOM_SCALE = 0.1;
-    public static final double RES_SCALE = 0.5;
+    public static double RES_SCALE = 0.5;
 
     private static class InputStatus {
         public volatile boolean
@@ -175,11 +175,23 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
         inputStatus.setState(e.getKeyCode(), true);
 
         if (e.getKeyCode() == KeyEvent.VK_R) {
-            MAX_ITER *= 2;
+            MAX_ITER += 20;
         }
         if(e.getKeyCode() == KeyEvent.VK_F){
-            if(MAX_ITER>1){
-                MAX_ITER /= 2;
+            if(MAX_ITER>10){
+                MAX_ITER -= 20;
+            }
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_T){
+            if(RES_SCALE<1.0) {
+                RES_SCALE+=0.1;
+            }
+        }
+        if(e.getKeyCode() == KeyEvent.VK_G){
+            if(RES_SCALE>0.2) {
+                RES_SCALE-=0.1;
+                System.out.println(RES_SCALE);
             }
         }
     }
