@@ -2,6 +2,8 @@
 
 A Mandelbrot Set visualizer that I made in Java as a practice project.
 
+![example image](https://raw.githubusercontent.com/Milanesa-chan/practice-java-mandelbrot/master/res/readme.png)
+
 ### Controls
 
 **- Move:** Mouse drag / W, A, S, D
