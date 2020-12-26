@@ -11,7 +11,7 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
     public double CAM_OFFSET_X, CAM_OFFSET_Y;
     public static int MAX_ITER = 30;
     public double P_SCALE = 0.005, P_ZOOM_SCALE = 0.1;
-    public static double RES_SCALE = 0.5;
+    public static double RES_SCALE = 0.5, MOVE_RES_SCALE = 0.1, MAX_RES_SCALE = 1, RES_SCALE_STEP = 0.1;
 
     private static class InputStatus {
         public volatile boolean
@@ -85,17 +85,23 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
 
         double moveQuantity = inputStatus.PRECISE ? 1 : 10;
         if (inputStatus.CAM_UP) {
-            CAM_OFFSET_Y += moveQuantity;
+            moveCamera(0.0, moveQuantity);
         }
         if (inputStatus.CAM_DOWN) {
-            CAM_OFFSET_Y -= moveQuantity;
+            moveCamera(0.0, -moveQuantity);
         }
         if (inputStatus.CAM_RIGHT) {
-            CAM_OFFSET_X -= moveQuantity;
+            moveCamera(-moveQuantity, 0.0);
         }
         if (inputStatus.CAM_LEFT) {
-            CAM_OFFSET_X += moveQuantity;
+            moveCamera(moveQuantity, 0.0);
         }
+    }
+
+    private void moveCamera(double offsetX, double offsetY){
+        CAM_OFFSET_X += offsetX;
+        CAM_OFFSET_Y += offsetY;
+        RES_SCALE = MOVE_RES_SCALE;
     }
 
     private void screenZoom(double multiplier) {
@@ -104,6 +110,8 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
         double newPScale = P_SCALE;
         CAM_OFFSET_X *= oldPScale / newPScale;
         CAM_OFFSET_Y *= oldPScale / newPScale;
+
+        RES_SCALE = MOVE_RES_SCALE;
     }
 
     public static void main(String[] args) {
@@ -153,8 +161,7 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
     @Override
     public void mouseDragged(MouseEvent e) {
         if (mouseDown) {
-            CAM_OFFSET_X += e.getX() - mouseX0;
-            CAM_OFFSET_Y += e.getY() - mouseY0;
+            moveCamera(e.getX() - mouseX0, e.getY() - mouseY0);
             mouseX0 = e.getX();
             mouseY0 = e.getY();
         }

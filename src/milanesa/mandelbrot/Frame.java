@@ -82,6 +82,9 @@ public class Frame extends JFrame {
                 g.fillRect(j, i, pixelStep, pixelStep);
             }
         }
+
+        if(Core.RES_SCALE<Core.MAX_RES_SCALE)
+            Core.RES_SCALE += Core.RES_SCALE_STEP;
     }
 
     private int computeIterations(Complex c){
