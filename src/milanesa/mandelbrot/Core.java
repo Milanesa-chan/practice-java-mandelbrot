@@ -54,7 +54,7 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
 
     private final InputStatus inputStatus = new InputStatus();
 
-    private Frame frameInstance;
+    private final Frame frameInstance;
 
     public Core() {
         frameInstance = new Frame(this);
@@ -98,10 +98,15 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
         }
     }
 
+    private void refreshResScale(){
+        RES_SCALE = MOVE_RES_SCALE;
+        frameInstance.repainting = true;
+    }
+
     private void moveCamera(double offsetX, double offsetY){
         CAM_OFFSET_X += offsetX;
         CAM_OFFSET_Y += offsetY;
-        RES_SCALE = MOVE_RES_SCALE;
+        refreshResScale();
     }
 
     private void screenZoom(double multiplier) {
@@ -111,7 +116,7 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
         CAM_OFFSET_X *= oldPScale / newPScale;
         CAM_OFFSET_Y *= oldPScale / newPScale;
 
-        RES_SCALE = MOVE_RES_SCALE;
+        refreshResScale();
     }
 
     public static void main(String[] args) {
@@ -183,22 +188,25 @@ public class Core implements MouseWheelListener, MouseListener, MouseMotionListe
 
         if (e.getKeyCode() == KeyEvent.VK_R) {
             MAX_ITER += 20;
+            refreshResScale();
         }
         if(e.getKeyCode() == KeyEvent.VK_F){
             if(MAX_ITER>10){
                 MAX_ITER -= 20;
+                refreshResScale();
             }
         }
 
         if(e.getKeyCode() == KeyEvent.VK_T){
-            if(RES_SCALE<1.0) {
-                RES_SCALE+=0.1;
+            if(MAX_RES_SCALE<1.0) {
+                MAX_RES_SCALE+=0.1;
+                refreshResScale();
             }
         }
         if(e.getKeyCode() == KeyEvent.VK_G){
-            if(RES_SCALE>0.2) {
-                RES_SCALE-=0.1;
-                System.out.println(RES_SCALE);
+            if(MAX_RES_SCALE>0.2) {
+                MAX_RES_SCALE-=0.1;
+                refreshResScale();
             }
         }
     }
